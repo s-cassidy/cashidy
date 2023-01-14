@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from uuid import uuid4
-from money import Pounds
+from money import Pence
 
 
 class Observer(ABC):
     @abstractmethod
-    def __call__(self):
+    def notify(self):
         pass
 
 
@@ -14,12 +14,12 @@ class Fund(ABC, Observer):
     # i.e. should only update when it has been
     # modified in some way (needs a notifier)
     # and when its balance has actually been requested
-    def __init__(self, name, balance: Pounds=0):
+    def __init__(self, name, balance: Pence= Pence(0)):
         self._balance = startbalance
         self.name = name
         self._needs_update = True
 
-    def __call__(self):
+    def notify(self):
         self._needs_update = True
 
     @abstractmethod
