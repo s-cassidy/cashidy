@@ -1,0 +1,19 @@
+id,Date,Account,Flag,Payee,Category,Memo,Outflow,Inflow,Cleared
+e0ee0441-c884-409e-85ca-8268cd4d9675,2022-11-08,0,,,0,,000,100000,confirmed
+f2fb4f00-3e5c-4f37-ab74-4758d792a327,2022-11-09,1,,,0,,000,50000,confirmed
+e27ff273-2a12-412d-b60b-1023e5732cb0,2022-11-10,0,,Natwest,1,Mortgage,30000,0,confirmed
+d20dfcb1-94d4-4d94-85dc-13b289904d2f,2022-11-10,0,,Asda,2,Food,10000,0,confirmed
+0962f265-7b3a-48e3-ba69-393deb17d72e,2022-11-15,0,,Asda,2,Food,10000,0,confirmed
+34261fb2-3cb0-42f0-923e-1af229656ad1,2022-11-20,1,,The Barber,3,Haircut,2000,0,confirmed
+e0ee0442-c884-409e-85ca-8268cd4d9675,2022-12-08,0,,,0,,000,100000,confirmed
+f2fb4f01-3e5c-4f37-ab74-4758d792a327,2022-12-09,1,,,0,,000,50000,confirmed
+e27ff273-2a12-412d-b60b-1023e5732cb0,2022-12-10,0,,Natwest,1,Mortgage,30000,0,confirmed
+d20dfcb4-94d4-4d94-85dc-13b289904d2f,2022-12-10,0,,Asda,2,Food,10000,0,confirmed
+0962f266-7b3a-48e3-ba69-393deb17d72e,2022-12-15,0,,Asda,2,Food,10000,0,confirmed
+34261fb7-3cb0-42f0-923e-1af229656ad1,2022-12-20,1,,The Barber,3,Haircut,2000,0,confirmed
+e0ee0442-c884-409e-85ca-8268cd4d9673,2023-01-08,0,,,0,,000,100000,confirmed
+f2fb4f01-3e5c-4f37-ab74-4758d792a323,2023-01-09,1,,,0,,000,50000,confirmed
+e27ff273-2a12-412d-b60b-1023e5732cb3,2023-01-10,0,,Natwest,1,Mortgage,30000,0,confirmed
+d20dfcb4-94d4-4d94-85dc-13b289904d23,2023-01-10,0,,Asda,2,Food,10000,0,confirmed
+0962f266-7b3a-48e3-ba69-393deb17d723,2023-01-15,0,,Asda,2,Food,10000,0,confirmed
+34261fb7-3cb0-42f0-923e-1af229656ad3,2023-01-20,1,,The Barber,3,Haircut,2000,0,confirmed

@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import Callable
+from typing import Callable, List
 from money import Pence
 from uuid import uuid4
 
@@ -13,15 +13,14 @@ class Observable:
     def detach(self, observer):
         self._observers.remove(observer)
 
-    def _notify(self, *args):
-        for implicated in args:
-            print(f"notifying {implicated}")
+    def _notify(self, *observers):
+        for implicated in observers:
             if implicated in self._observers:
                 implicated.notify()
 
 
 class DFReaderWriter:
-    read_path = 'data/register.csv'
+    read_path = 'data/register-test.csv'
     write_path = 'data/testwrite.csv'
 
     @classmethod
@@ -54,8 +53,15 @@ class Register(Observable):
     def monthly_category_activity(self, month: str, category: str) -> Pence:
         pass
 
-    def category_balance(self, category: str, datetime=None) -> Pence:
+    def category_balance(self, category: int, datetime=None) -> Pence:
         pass
+
+    def unreconciled_acct_activity(self, account_id: int) -> Pence:
+        # TODO make this since the last reconciliation for that account
+        account_activity = self.df[(self.df['Account'] == account_id)]
+        net_activity = sum(account_activity['Inflow']) - sum(account_activity['Outflow'])
+        return Pence(net_activity)
+
 
     def total_balance(self, datetime: pd.Timestamp | str) -> Pence:
         # total balance at a given datetime
