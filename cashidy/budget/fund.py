@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from uuid import uuid4
-from money import Pence
+from cashidy.budget.money import Pence
 
 
 class Observer(ABC):

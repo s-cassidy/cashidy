@@ -1,6 +1,6 @@
 import pandas as pd
 from typing import Callable, List
-from money import Pence
+from cashidy.budget.money import Pence
 from uuid import uuid4
 
 class Observable:
@@ -20,8 +20,8 @@ class Observable:
 
 
 class DFReaderWriter:
-    read_path = 'data/register-test.csv'
-    write_path = 'data/testwrite.csv'
+    read_path = 'cashidy/data/register-test.csv'
+    write_path = 'cashidy/data/testwrite.csv'
 
     @classmethod
     def read_from_csv(cls) -> pd.DataFrame:
@@ -47,8 +47,8 @@ class Register(Observable):
         
     def __init__(self, path):
         super().__init__()
-        self.csv_path = path
-        self.df = DFReaderWriter.read_from_csv()
+        self._csv_path = path
+        self._df = DFReaderWriter.read_from_csv()
 
     def monthly_category_activity(self, month: str, category: str) -> Pence:
         pass
@@ -58,7 +58,7 @@ class Register(Observable):
 
     def unreconciled_acct_activity(self, account_id: int) -> Pence:
         # TODO make this since the last reconciliation for that account
-        account_activity = self.df[(self.df['Account'] == account_id)]
+        account_activity = self._df[(self._df['Account'] == account_id)]
         net_activity = sum(account_activity['Inflow']) - sum(account_activity['Outflow'])
         return Pence(net_activity)
 
@@ -69,9 +69,9 @@ class Register(Observable):
         pass
 
     @DFReaderWriter.write
-    def change_category(self, transaction_ID: str, new_category: str) -> None:
-        old_category = self.df.loc[transaction_ID]['Category']
-        self.df.loc[transaction_ID]['Category'] = new_category
+    def change_category(self, transactionID: str, new_category: str) -> None:
+        old_category = self._df.loc[transactionID]['Category']
+        self._df.loc[transactionID]['Category'] = new_category
         self._notify(old_category, new_category)
 
     @DFReaderWriter.write
@@ -92,8 +92,8 @@ class Register(Observable):
                 'Inflow': inflow,
                 'status': 'confirmed' if confirmed else 'unconfirmed'}
         transaction_df = pd.DataFrame(
-            [transaction_dict], index=[uuid4()], columns=self.df.columns)
-        self.df = pd.concat([self.df, transaction_df]).sort_values('Date')
+            [transaction_dict], index=[uuid4()], columns=self._df.columns)
+        self._df = pd.concat([self._df, transaction_df]).sort_values('Date')
         self._notify(category, acct)
 
     @DFReaderWriter.write
@@ -108,4 +108,3 @@ class Transaction:
 
     def change_date(self, datetime: pd.Timestamp | str) -> None:
         pass
-

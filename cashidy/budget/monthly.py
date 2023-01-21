@@ -1,4 +1,4 @@
-from money import Pence
+from cashidy.budget.money import Pence
 
 class MonthlyBudget:
     # has: to be budgeted

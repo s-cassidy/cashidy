@@ -1,9 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from budget import Budget
-from fund import Fund
-from money import Pence
+    from cashidy.budget.budget import Budget
+from cashidy.budget.fund import Fund
+from cashidy.budget.money import Pence
 
 
 class Account(Fund):
