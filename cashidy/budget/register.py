@@ -1,6 +1,6 @@
 import pandas as pd
 from typing import Callable, List
-from cashidy.budget.money import Pence
+from cashidy.budget.money import parse_to_pence
 from uuid import uuid4
 
 class Observable:
@@ -37,7 +37,7 @@ class DFReaderWriter:
         def call_and_write(*args, **kwargs) -> None:
             decorated(*args, **kwargs)
             register = args[0]
-            register.df.to_csv(cls.write_path)
+            register._df.to_csv(cls.write_path)
         return call_and_write
 
 
@@ -50,20 +50,20 @@ class Register(Observable):
         self._csv_path = path
         self._df = DFReaderWriter.read_from_csv()
 
-    def monthly_category_activity(self, month: str, category: str) -> Pence:
+    def monthly_category_activity(self, month: str, category: str) -> int:
         pass
 
-    def category_balance(self, category: int, datetime=None) -> Pence:
+    def category_balance(self, category: int, datetime=None) -> int:
         pass
 
-    def unreconciled_acct_activity(self, account_id: int) -> Pence:
+    def unreconciled_acct_activity(self, account_id: int) -> int:
         # TODO make this since the last reconciliation for that account
-        account_activity = self._df[(self._df['Account'] == account_id)]
-        net_activity = sum(account_activity['Inflow']) - sum(account_activity['Outflow'])
-        return Pence(net_activity)
+        acct_activity = self._df[(self._df['Account'] == account_id)]
+        net_activity = sum(acct_activity['Inflow']) - sum(acct_activity['Outflow'])
+        return net_activity
 
 
-    def total_balance(self, datetime: pd.Timestamp | str) -> Pence:
+    def total_balance(self, datetime: pd.Timestamp | str) -> int:
         # total balance at a given datetime
         # None gives most up-to-date total balance
         pass
@@ -80,10 +80,10 @@ class Register(Observable):
 
     @DFReaderWriter.write
     def add_transaction(self, date, acct, payee=None, category=None,
-                        note=None, outflow=Pence(0), inflow=Pence(0),
-                        confirmed=False):
+                        note=None, outflow=0, inflow=0, confirmed=False):
+
         transaction_dict = {
-                'Date': date,
+                'Date': pd.Timestamp(date),
                 'Account': acct,
                 'Payee': payee,
                 'Category': category,
@@ -91,9 +91,13 @@ class Register(Observable):
                 'Outflow': outflow,
                 'Inflow': inflow,
                 'status': 'confirmed' if confirmed else 'unconfirmed'}
-        transaction_df = pd.DataFrame(
-            [transaction_dict], index=[uuid4()], columns=self._df.columns)
-        self._df = pd.concat([self._df, transaction_df]).sort_values('Date')
+
+        transaction_df = pd.DataFrame([transaction_dict],
+                                      index=[uuid4()],
+                                      columns=self._df.columns)
+
+        self._df = pd.concat([self._df, transaction_df])
+        self._df = self._df.sort_values('Date')
         self._notify(category, acct)
 
     @DFReaderWriter.write

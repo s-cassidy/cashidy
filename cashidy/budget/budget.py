@@ -1,7 +1,6 @@
 from cashidy.budget.fund import Fund
 from cashidy.budget.account import Account
 from cashidy.budget.register import Register
-from cashidy.budget.money import Pence
 
 
 
@@ -11,7 +10,7 @@ class Budget(Fund):
     def __init__(self, name: str, register: Register):
         self.register = register
         self.accounts = []  # possibly should be a dictionary
-        self._balance = Pence(0)
+        self._balance = 0
         self._needs_update = True
 
     def category_new(self):
@@ -24,7 +23,7 @@ class Budget(Fund):
         self.accounts.append(Account(id=id, name=name, budget=self))
 
     def update_balance(self):
-        balance = Pence(0)
+        balance = 0
         for account in self.accounts:
             balance += account.balance
         self._balance = balance

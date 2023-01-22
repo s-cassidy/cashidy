@@ -3,13 +3,12 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from cashidy.budget.budget import Budget
 from cashidy.budget.fund import Fund
-from cashidy.budget.money import Pence
 
 
 class Account(Fund):
     def __init__(self, id, name, budget: Budget, reconciled: int = 0):
         super().__init__(id, name)
-        self._last_reconciled = Pence(reconciled)
+        self._last_reconciled = reconciled
         self.budget = budget
 
     def update_balance(self):

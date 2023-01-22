@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from uuid import uuid4
-from cashidy.budget.money import Pence
 
 
 class Observer(ABC):
@@ -14,7 +13,7 @@ class Fund(Observer, ABC):
     # i.e. should only update when it has been
     # modified in some way (needs a notifier)
     # and when its balance has actually been requested
-    def __init__(self, id, name, balance: Pence = Pence(0)):
+    def __init__(self, id, name, balance: int = 0):
         self._balance = balance
         self.id = id
         self.name = name
