@@ -10,6 +10,7 @@ class Account(Fund):
         super().__init__(id, name)
         self._last_reconciled = reconciled
         self.budget = budget
+        self.budget.register.attach(self)
 
     def update_balance(self):
         change = self.budget.register.unreconciled_acct_activity(self.id)

@@ -58,8 +58,8 @@ class Register(Observable):
 
     def unreconciled_acct_activity(self, account_id: int) -> int:
         # TODO make this since the last reconciliation for that account
-        acct_activity = self._df[(self._df['Account'] == account_id)]
-        net_activity = sum(acct_activity['Inflow']) - sum(acct_activity['Outflow'])
+        acct_frame = self._df[(self._df['Account'] == account_id)]
+        net_activity = sum(acct_frame['Inflow']) - sum(acct_frame['Outflow'])
         return net_activity
 
 
