@@ -1,0 +1,4 @@
+env
+*/__pycache__
+cashidy.egg-info/
+cashidy/budget/__pycache__

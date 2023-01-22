@@ -62,7 +62,6 @@ class Register(Observable):
         net_activity = sum(acct_frame['Inflow']) - sum(acct_frame['Outflow'])
         return net_activity
 
-
     def total_balance(self, datetime: pd.Timestamp | str) -> int:
         # total balance at a given datetime
         # None gives most up-to-date total balance
@@ -98,7 +97,8 @@ class Register(Observable):
 
         self._df = pd.concat([self._df, transaction_df])
         self._df = self._df.sort_values('Date')
-        self._notify(category, acct)
+        account = self.budget.accounts[acct]
+        self._notify(account)
 
     @DFReaderWriter.write
     def delete_transaction(self, transaction_ID):

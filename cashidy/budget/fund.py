@@ -29,5 +29,6 @@ class Fund(Observer, ABC):
     @property
     def balance(self):
         if self._needs_update:
+            self._needs_update = False
             self.update_balance()
         return self._balance

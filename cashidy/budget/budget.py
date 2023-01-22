@@ -9,7 +9,8 @@ class Budget(Fund):
     # can: make new categories, accounts
     def __init__(self, name: str, register: Register):
         self.register = register
-        self.accounts = []  # possibly should be a dictionary
+        self.register.budget = self
+        self.accounts = {}  # possibly should be a dictionary
         self._balance = 0
         self._needs_update = True
 
@@ -20,11 +21,11 @@ class Budget(Fund):
         pass
 
     def add_account(self, name: str, id: int = None):
-        self.accounts.append(Account(id=id, name=name, budget=self))
+        self.accounts[id]= Account(id=id, name=name, budget=self)
 
     def update_balance(self):
         balance = 0
-        for account in self.accounts:
+        for id, account in self.accounts.items():
             balance += account.balance
         self._balance = balance
 
