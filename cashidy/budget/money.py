@@ -12,15 +12,16 @@ def pence_part(amount: int) -> int:
 
 def pounds_as_str(amount: int) -> str:
     pounds_str = str(pounds_part(amount))
-    L = len(pounds_str)
-    # insert comma separators in the correct places
-    pounds = ''.join([f",{dgt}" if (i > 0) and (i - L) % 3 == 0 else dgt
-                      for i, dgt in enumerate(pounds_str)])
     pence = str(pence_part(amount))
+    pounds = insert_comma_separators(pounds_str)
     if len(pence) == 1:
         pence = "0" + pence
     return f"£{pounds}.{pence}"
 
+def insert_comma_separators(num_str : str) -> str:
+    L = len(num_str)
+    return ''.join([f",{dgt}" if (i > 0) and (i - L) % 3 == 0 else dgt
+                      for i, dgt in enumerate(num_str)])
 
 def money_mul(amount: int, multiplier: int | float) -> int:
     return int(round(amount*multiplier), 0)

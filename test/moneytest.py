@@ -1,7 +1,7 @@
 import unittest
 from itertools import product
 from typing import Tuple, List
-from cashidy.money import parse_to_pounds
+from cashidy.budget.money import parse_to_pence
 
 
 class TestMoney(unittest.TestCase):
@@ -20,13 +20,13 @@ class TestMoney(unittest.TestCase):
                 '05': [".05", ".050"],
                 }
         amounts = list(product(pounds, pence))
-        cases = {amount[0]+amount[1]:
+        cases = {pd+p:
                  self.combine_parts(prefix, pounds[pd], pence[p])
                  for pd, p in amounts}
         for amount in cases:
             for case in cases[amount]:
-                print(f"Testing {case} == {int(amount)}")
-                self.assertEqual(parse_to_pounds(case), int(amount))
+                #print(f"Testing {case} == {int(amount)}")
+                self.assertEqual(parse_to_pence(case), int(amount))
 
 
 

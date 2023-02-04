@@ -10,7 +10,7 @@ class Budget(Fund):
     def __init__(self, name: str, register: Register):
         self.register = register
         self.register.budget = self
-        self.accounts = {}  # possibly should be a dictionary
+        self.accounts = {}
         self._balance = 0
         self._needs_update = True
 
@@ -39,7 +39,9 @@ class Category(Fund):
     pass
 
 class Unallocated(Category):
-    # special category containing unallocated money
+    '''
+    Special category containing unallocated money.
+    '''
     pass
 
 
