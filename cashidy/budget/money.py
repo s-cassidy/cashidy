@@ -18,16 +18,23 @@ def pounds_as_str(amount: int) -> str:
         pence = "0" + pence
     return f"£{pounds}.{pence}"
 
-def insert_comma_separators(num_str : str) -> str:
+
+def insert_comma_separators(num_str: str) -> str:
     L = len(num_str)
-    return ''.join([f",{dgt}" if (i > 0) and (i - L) % 3 == 0 else dgt
-                      for i, dgt in enumerate(num_str)])
+    return "".join(
+        [
+            f",{dgt}" if (i > 0) and (i - L) % 3 == 0 else dgt
+            for i, dgt in enumerate(num_str)
+        ]
+    )
+
 
 def money_mul(amount: int, multiplier: int | float) -> int:
-    return int(round(amount*multiplier), 0)
+    return int(round(amount * multiplier), 0)
+
 
 def money_div(amount: int, divisor: int | float) -> int:
-    return int(round(amount/divisor), 0)
+    return int(round(amount / divisor), 0)
 
 
 def parse_to_pence(amount: str) -> int:
@@ -49,4 +56,4 @@ def parse_to_pence(amount: str) -> int:
 
 
 def extract_digits(string: str) -> str:
-    return ''.join(c for c in string if c in "0123456789")
+    return "".join(c for c in string if c in "0123456789")

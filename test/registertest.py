@@ -21,3 +21,9 @@ class TestNewTransaction(SetupTests):
                          sorted(list(register._df['Date'])))
         self.assertEqual(len(set(register._df.axes[0])),
                          expected_transactions)
+
+
+class TestQuery(SetupTests):        
+    def test_query_by_column_equality(self):
+        """Filter elements of a column that equal a given value"""
+         
