@@ -136,7 +136,7 @@ class Register(Observable):
 
         self._df = pd.concat([self._df, transaction_df])
         self._df = self._df.sort_values("Date")
-        account = self.budget.accounts[acct]
+        account = self._budget.accounts[acct]
         self._notify(account)
 
     @DFReaderWriter.write
