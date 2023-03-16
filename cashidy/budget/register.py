@@ -1,7 +1,13 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cashidy.budget.budget import YearMonth
 import pandas as pd
-from typing import Callable, List
+from typing import Callable
 from cashidy.budget.money import parse_to_pence
 from uuid import uuid4
+from calendar import monthrange
 
 
 class Observable:
@@ -72,6 +78,25 @@ class Register(Observable):
         # TODO make this since the last reconciliation for that account
         acct_frame = self._df[(self._df["Account"] == account_id)]
         net_activity = sum(acct_frame["Inflow"]) - sum(acct_frame["Outflow"])
+        return net_activity
+
+    def yearmonth_to_timestamp(self, month: YearMonth, end=True) -> pd.Timestamp:
+        if end:
+            day = monthrange(month.year, month.month)[1]
+        else:
+            day = 1
+        return pd.Timestamp(month.year, month.month, day)
+
+    def get_category_activity_in_month_range(
+        self, category_id: int, start_month: YearMonth, end_month: YearMonth
+    ) -> int:
+        cat_frame = self._df[(self._df["Category"] == category_id)]
+        ts_start = self.yearmonth_to_timestamp(start_month, end=False)
+        ts_end = self.yearmonth_to_timestamp(end_month)
+        time_frame = cat_frame[
+            ((cat_frame["Date"] >= ts_start) & (cat_frame["Date"] <= ts_end))
+        ]
+        net_activity = sum(time_frame["Inflow"]) - sum(time_frame["Outflow"])
         return net_activity
 
     def total_balance(self, datetime: pd.Timestamp | str) -> int:
