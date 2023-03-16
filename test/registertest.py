@@ -1,5 +1,6 @@
 import unittest
 from test.setuptest import SetupTests
+from cashidy.budget.budget import YearMonth
 
 
 def add_test_transaction(register) -> None:
@@ -21,6 +22,23 @@ class TestNewTransaction(SetupTests):
                          sorted(list(register._df['Date'])))
         self.assertEqual(len(set(register._df.axes[0])),
                          expected_transactions)
+
+
+class TestCategoryActivityInRange(SetupTests):
+    def test_activity_in_range(self):
+        register = self.budget.register
+        start_month = YearMonth(2022, 11)
+        end_month = YearMonth(2022, 12)
+        category = 1
+        self.assertEqual(
+            register.get_category_activity_in_month_range(
+                category,
+                start_month,
+                end_month
+            ),
+            -60000
+        )
+
 
 
 class TestQuery(SetupTests):        
