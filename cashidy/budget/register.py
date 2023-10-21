@@ -94,7 +94,7 @@ class Register(Observable):
         ts_start = self.yearmonth_to_timestamp(start_month, end=False)
         ts_end = self.yearmonth_to_timestamp(end_month)
         time_frame = cat_frame[
-            ((cat_frame["Date"] >= ts_start) & (cat_frame["Date"] <= ts_end))
+            (cat_frame["Date"] >= ts_start) & (cat_frame["Date"] <= ts_end)
         ]
         net_activity = sum(time_frame["Inflow"]) - sum(time_frame["Outflow"])
         return net_activity
